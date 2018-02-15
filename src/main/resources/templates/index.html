@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Directory</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<nav>
+    <a href="/users">User Directory</a> |
+    <a href="/userForm">Save User Data</a>
+
+</nav>
+
+<ul th:each="user : ${users}">
+    <li>id: <span th:text="${user.id}">1</span>
+        name: <span th:text="${user.name}">name</span>
+        dob: <span th:text="${user.dob}">2012-01-01</span>
+    </li>
+
+</ul>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Directory</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" />
+</head>
+<body>
+<nav>
+    <a href="/users">User Directory</a> |
+    <a href="/userForm">Save User Data</a>
+</nav>
+
+<form action="#">
+
+    <div>
+        Name: <input id="name" type="text" />
+    </div>
+    <div>
+        Date of Birth: <input id="dob" type="date" />
+    </div>
+
+    <div>
+        <button id="save">Save</button>
+    </div>
+</form>
+
+<script language="javascript">
+        $( function() {
+            var $name = $("#name"),
+            $dob  = $("#dob"),
+            $save = $("#save");
+
+           $save.click( function() {
+                postUser( $name.val(), $dob.val() );
+                return false;
+           })
+
+           function postUser(name, dob) {
+                    console.log("dob", dob)
+                    $.post( "/users", {"name": '"'+ name + '"', "dob": '"' + dob +'"'}, function( data ) {
+                        console.debug(data)
+                    }, "json");
+           }
+
+        });
+
+</script>
+
+</body>
+</html>
