@@ -3,6 +3,7 @@
 <head>
     <title>User Directory</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" />
 </head>
 <body>
 <nav>
@@ -11,12 +12,52 @@
 
 </nav>
 
-<ul th:each="user : ${users}">
-    <li>id: <span th:text="${user.id}">1</span>
+<div>
+    <button id="refresh">Refresh</button>
+</div>
+
+<ul id="list">
+    <li th:each="user : ${users}">id: <span th:text="${user.id}">1</span>
         name: <span th:text="${user.name}">name</span>
         dob: <span th:text="${user.dob}">2012-01-01</span>
     </li>
-
 </ul>
+
+<script>
+    $( function() {
+        $('#refresh').click(getUsers);
+
+        function getUsers() {
+            console.log('get users')
+             $.ajax({
+                url:"/users/json",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function( data ) {
+                    writeUsers(data)
+                }
+            });
+        }
+
+        function writeUsers(users) {
+
+           var $list = $('#list'), newUserList = ""
+
+           console.log("users", users)
+
+           users.forEach(function(user) {
+                            console.log(user)
+                            newUserList += '<li>id: <span>' + user.id + '</span>' +
+                                        ' name: <span>' + user.name + '</span>' +
+                                        ' dob: <span>' + user.dob + '</span></li>';
+
+                         })
+
+           $list.html(newUserList)
+        }
+    } );
+
+</script>
 </body>
 </html>

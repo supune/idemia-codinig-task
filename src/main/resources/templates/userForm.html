@@ -23,10 +23,12 @@
     <div>
         <button id="save">Save</button>
     </div>
+
 </form>
 
 <script language="javascript">
         $( function() {
+
             var $name = $("#name"),
             $dob  = $("#dob"),
             $save = $("#save");
@@ -38,9 +40,17 @@
 
            function postUser(name, dob) {
                     console.log("dob", dob)
-                    $.post( "/users", {"name": '"'+ name + '"', "dob": '"' + dob +'"'}, function( data ) {
-                        console.debug(data)
-                    }, "json");
+                    $.ajax({
+                            url:"/users",
+                            type:"POST",
+                            data: JSON.stringify({"name": name, "dob": dob}),
+                            contentType:"application/json; charset=utf-8",
+                            dataType:"json",
+                            success: function( data ) {
+                                        console.log("saved", data)
+                                        window.location.replace("/users");
+                                     }
+                            });
            }
 
         });

@@ -5,14 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.UriComponentsBuilder;
 import supun.users.data.User;
 import supun.users.data.UserRepository;
 
-import java.net.URI;
 import java.util.List;
 
 
@@ -37,9 +34,8 @@ public class UserController {
     @RequestMapping(value = "/userForm", method = RequestMethod.GET)
     public ModelAndView userForm() {
 
-        ModelAndView mav = new ModelAndView("userForm");
+       return new ModelAndView("userForm");
 
-        return mav;
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,6 +52,13 @@ public class UserController {
     public ResponseEntity<?> saveUser(@RequestBody User user) {
         User savedUser = userRepository.save(user);
         return ResponseEntity.ok(savedUser);
+    }
+
+    @RequestMapping(value = "/users/json", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> listUsers() {
+
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
     }
 
 }
